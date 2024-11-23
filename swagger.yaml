@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  title: API de Productos
+  version: "1.0"
+  description: API para la gestión de usuarios y productos en plató de comercio.
+servers:
+  - url: http://localhost:5000/api # Cambia esto para tu entorno en producción
+paths:
+  /user/register:
+    post:
+      summary: Registrar un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Juan Perez"
+                email:
+                  type: string
+                  example: "juan.perez@example.com"
+                password:
+                  type: string
+                  example: "contraseñaSegura"
+      responses:
+        "201":
+          description: Usuario registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    description: ID del usuario registrado
+        "400":
+          description: Petición incorrecta (datos inválidos)
+
+  /user/login:
+    post:
+      summary: Iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "juan.perez@example.com"
+                password:
+                  type: string
+                  example: "contraseñaSegura"
+      responses:
+        "200":
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Token JWT para autenticar futuras peticiones
+        "400":
+          description: Credenciales incorrectas
+
+  /user/verifytoken:
+    get:
+      summary: Verificar el token de usuario
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Token verificado
+        "401":
+          description: Token no válido
+
+  /user/update:
+    put:
+      summary: Actualizar información del usuario
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Juan Carlos Perez"
+                email:
+                  type: string
+                  example: "juan.c.perez@example.com"
+      responses:
+        "200":
+          description: Usuario actualizado correctamente
+        "401":
+          description: Acceso denegado (token inválido)
+
+  /product/create:
+    post:
+      summary: Crear un nuevo producto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Producto A"
+                description:
+                  type: string
+                  example: "Descripción del Producto A"
+                price:
+                  type: number
+                  example: 99.99
+      responses:
+        "201":
+          description: Producto creado exitosamente
+        "401":
+          description: Acceso denegado (token inválido)
+
+  /product/readall:
+    get:
+      summary: Leer todos los productos
+      responses:
+        "200":
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    price:
+                      type: number
+
+  /product/readone/{id}:
+    get:
+      summary: Leer un producto específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Detalles del producto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  price:
+                    type: number
+        "404":
+          description: Producto no encontrado
+
+  /product/update/{id}:
+    put:
+      summary: Actualizar un producto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Producto A Actualizado"
+                description:
+                  type: string
+                  example: "Descripción del Producto A Actualizado"
+                price:
+                  type: number
+                  example: 89.99
+      responses:
+        "200":
+          description: Producto actualizado correctamente
+        "404":
+          description: Producto no encontrado
+        "401":
+          description: Acceso denegado (token inválido)
+
+  /product/delete/{id}:
+    delete:
+      summary: Eliminar un producto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+        "404":
+          description: Producto no encontrado
+        "401":
+          description: Acceso denegado (token inválido)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
