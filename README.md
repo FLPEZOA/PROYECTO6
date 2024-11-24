@@ -102,8 +102,8 @@ ejemplo-tu-proyecto/
 │  └─ auth.js
 └─ README.md
 
-#Instrucciones para Ejecutar el Proyecto
-Abre la Terminal:
+## Instrucciones para Ejecutar el Proyecto
+### Abre la Terminal:
 
 Abre tu terminal o línea de comandos (Command Prompt, PowerShell en Windows, Terminal en macOS o cualquier terminal en Linux).
 
@@ -116,14 +116,17 @@ bash
 cd ruta/a/tu/proyecto/ejemplo-tu-proyecto
 
 
-3. Iniciar el Servidor de Desarrollo:
+### Iniciar el Servidor de Desarrollo:
 
    Una vez que estés en el directorio correcto, ejecuta el siguiente comando para iniciar el servidor de desarrollo:
-   ```bash
-   npm run dev
-   Esto ejecutará el script configurado para tu aplicación, que inicia el servidor.
+   
+bash
 
-Ver la API en Acción:
+npm run dev
+
+Esto ejecutará el script configurado para tu aplicación, que inicia el servidor.
+
+### Ver la API en Acción:
 
 Abre Postman (o cualquier cliente API que prefieras) y prueba los siguientes endpoints:
 
@@ -141,7 +144,7 @@ Verifica que la Aplicación Funcione:
 
 Asegúrate de que todas las rutas funcionan como se espera. Si has configurado todo correctamente, deberías poder gestionar usuarios y productos sin inconvenientes.
 
-Solucionar Problemas Comunes
+### Solucionar Problemas Comunes
 Si algo no funciona como se espera, aquí hay algunos pasos de solución de problemas comunes:
 
 Errores de Consola:
