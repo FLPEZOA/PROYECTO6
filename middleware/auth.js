@@ -7,11 +7,9 @@ exports.authenticate = (req, res, next) => {
     }
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = verified;
-        next();
+        req.user = verified;  // Guarda la información del usuario verificado en `req.user`
+        next();  // Llama a la siguiente función de middleware
     } catch (err) {
         res.status(400).send('Token no válido');
     }
-    // Temporariamente comenta el middleware
-    router.delete('/delete/:id', deleteProduct)
 };
